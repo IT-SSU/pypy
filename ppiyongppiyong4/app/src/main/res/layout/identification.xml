@@ -35,7 +35,7 @@
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
     <Button
-            android:text="@string/member_modify"
+            android:text="@string/check"
             style="@style/bottom_btn"
             android:id="@+id/btnSubmit"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
