@@ -73,7 +73,6 @@
         <intent
                 android:action="android.intent.action.MAIN"
                 android:targetPackage="com.cookandroid.kotlinapp"
-
-        />
+                android:targetClass="com.cookandroid.kotlinapp.Logout"/>
     </Preference>
 </PreferenceScreen>
