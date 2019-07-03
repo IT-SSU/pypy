@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        style="@style/haeder"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" android:id="@+id/header"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.constraint.ConstraintLayout
+            style="@style/header_btn"
+            android:id="@+id/layoutHeaderBack"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        <ImageButton
+                app:srcCompat="@drawable/header_back_btn"
+                style="@style/header_back_btn"
+                android:contentDescription="@string/back_desc"
+                android:id="@+id/btnHeaderBack"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="2dp"
+                android:layout_width="45dp" app:layout_constraintHorizontal_bias="0.057"
+                app:layout_constraintVertical_bias="1.0"
+                android:onClick="back"/>
+    </android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+            style="@style/header_txt"
+            app:layout_constraintTop_toTopOf="@+id/layoutHeaderBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+        <TextView
+                style="@style/header_txtview"
+                android:text="@string/join"
+                android:layout_width="match_parent"
+                android:id="@+id/txtHeaderTitle"
+                android:layout_height="match_parent" android:layout_weight="1"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.0"/>
+    </android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+            style="@style/header_btn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/header">
+        <ImageButton app:srcCompat="@drawable/header_setting_btn"
+                     style="@style/header_setting_btn"
+                     android:contentDescription="@string/setting_desc"
+                     android:id="@+id/btnHeaderSetting"
+                     app:layout_constraintTop_toTopOf="parent"
+                     app:layout_constraintEnd_toEndOf="parent"
+                     android:layout_marginBottom="2dp"
+                    android:onClick="goSetting"/>
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference android:height="69dp" android:layout="@layout/setting_header"/>
+    <PreferenceCategory android:title="알림 설정">
+        <SwitchPreference
+                android:defaultValue="true"
+                android:title="알림"
+                android:key="all"
+        />
+
+        <SwitchPreference
+                android:defaultValue="false"
+                android:title="앱 공지 알림 "
+                android:summary="앱의 공지 사항을 알립니다."
+                android:dependency="all"
+
+        />
+        <SwitchPreference
+                android:defaultValue="false"
+                android:title="주변 사람 알림 "
+                android:summary="주변 사람의 상태 이상 알림을 설정합니다."
+                android:dependency="all"
+        />
+        <RingtonePreference
+                android:defaultValue="content://settings/system/notification_sound"
+                android:key="alarmRingtone"
+                android:ringtoneType="notification"
+                android:showSilent="true"
+                android:title="알림 소리"
+                android:dependency="all"
+            />
+
+
+
+
+
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

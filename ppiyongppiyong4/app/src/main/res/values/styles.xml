@@ -1,0 +1,123 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    <style name="wrap">
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@color/colorWhite</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="haeder">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/borderpink2</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">70dp</item>
+    </style>
+    <style name="haeder_line">
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@color/colorMain</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">3dp</item>
+    </style>
+    <style name="header_btn">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">67dp</item>
+    </style>
+    <style name="header_back_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:background">@color/colorWhite</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+    </style>
+    <style name="header_setting_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:background">@color/colorWhite</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+    </style>
+    <style name="header_txt">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:color">@color/colorRealBlack</item>
+        <item name= "android:textStyle">bold</item>
+    </style>
+    <style name="header_txtview">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <!--<item name="android:fontFamily">@font/nanumGothic</item>-->
+        <item name="android:textSize">28dp</item>
+    </style>
+    <style name="join_list">
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+    </style>
+    <style name="join_list_tit">
+        <item name="android:textSize">18dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="join_list_edit">
+        <item name="android:textSize">18dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/borderpink</item>
+        <item name="android:textColorHint">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
+    <style name="bottom_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">24dp</item>
+        <item name="android:background">@color/colorMain</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+    <style name="basic_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:background">@color/colorMain</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+    <style name="small_btn">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="android:layout_marginLeft">2dp</item>
+    </style>
+    <style name="tab_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+    <!-- For Splash Screen -->
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+
+</resources>

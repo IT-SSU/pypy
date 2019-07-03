@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/wrap"
+        tools:context=".ID_find">
+    <include layout="@layout/header" android:id="@+id/header"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/findHeader"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/header" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header">
+        <Button
+                android:text="@string/id_find"
+                style="@style/tab_btn"
+                android:background="@color/colorAccent"
+                android:textColor="@android:color/background_light"/>
+        <Button
+                android:text="@string/pw_find"
+                style="@style/tab_btn"
+                android:id="@+id/btnPwFind"/>
+    </LinearLayout>
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/findHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/join_list"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" android:id="@+id/joinList1">
+                <TextView
+                        style="@style/join_list_tit"
+                        android:text="@string/email"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+                <EditText
+                        style="@style/join_list_edit"
+                        android:hint="@string/email_exam"
+                        android:ems="255"
+                        android:id="@+id/txtEmail"
+                        android:inputType="textEmailAddress"
+                        android:importantForAutofill="no" tools:targetApi="o"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    style="@style/join_list"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/joinList1" app:layout_constraintTop_toBottomOf="@id/joinList1">
+                <TextView
+                        style="@style/join_list_tit"
+                        android:text="@string/birth"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+                <EditText
+                        style="@style/join_list_edit"
+                        android:hint="@string/birth"
+                        android:ems="255"
+                        android:id="@+id/txtBirth"
+                        android:inputType="date"
+                        android:importantForAutofill="no" tools:targetApi="o"/>
+            </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+
+    <Button android:text="@string/id_find"
+            style="@style/bottom_btn"
+            android:id="@+id/btnSubmit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+</android.support.constraint.ConstraintLayout>

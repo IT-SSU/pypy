@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.cookandroid.kotlinapp">
+    <!-- 부팅 완료될때 브로드캐스크 수신 위한 권한 요청 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="삐용삐용"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+            android:networkSecurityConfig="@xml/network_security_config">
+        <activity android:name=".SmartWatchAlarm">
+        </activity>
+
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyCyCwo0tbLXZgj24HF2sz8g18k5Sj19mP8"/>
+
+        <activity
+                android:name=".SplashActivity"
+                android:theme="@style/SplashTheme">
+        </activity>
+        <activity android:name=".MemberModify">
+        </activity>
+        <activity android:name=".DetailModify">
+        </activity>
+        <activity android:name=".Join">
+        </activity>
+        <activity android:name=".JoinOk">
+        </activity>
+        <activity android:name=".Setting">
+        </activity>
+        <activity android:name=".PW_change">
+        </activity>
+        <activity android:name=".Notification_list">
+        </activity>
+        <activity android:name=".Main">
+        </activity>
+        <activity android:name=".Identification">
+        </activity>
+        <activity android:name=".PW_find">
+        </activity>
+        <activity android:name=".ID_find">
+        </activity>
+        <activity android:name=".AlarmActivity">
+        </activity>
+        <activity android:name=".Login">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <service
+                android:name=".LockScreenService"
+                android:enabled="true"
+                android:exported="true">
+        </service>
+
+        <receiver
+                android:name=".BootCompleteReceiver"
+                android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".ScreenOffExActivity">
+        </activity>
+    </application>
+
+</manifest>
