@@ -15,10 +15,6 @@ class Identification : Common() {
         setContentView(R.layout.identification)
         txtHeaderTitle.text="본인확인";
         btnHeaderSetting.visibility = View.GONE
-
-        btnHeaderBack.setOnClickListener {
-            startActivity(Intent(this,Setting::class.java))
-        }
         btnSubmit.setOnClickListener {
             startActivity(Intent(this,MemberModify::class.java))
         }
