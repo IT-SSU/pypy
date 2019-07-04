@@ -51,6 +51,8 @@ class Main : Common(), OnMapReadyCallback {
     var lat: Double = 0.0
     var long: Double = 0.0
     var address = ""
+
+
     private val polylineOptions = PolylineOptions().width(5f).color(Color.RED)
 
 
