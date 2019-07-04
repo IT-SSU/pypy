@@ -7,5 +7,7 @@ class smartWatchSetting: Common(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        
     }
 }
