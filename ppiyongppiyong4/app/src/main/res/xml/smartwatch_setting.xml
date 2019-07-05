@@ -3,11 +3,10 @@
     <Preference android:height="69dp" android:layout="@layout/setting_header"/>
     <PreferenceCategory android:title="스마트 와치 설정">
         <SwitchPreference
-                android:defaultValue="true"
                 android:title="블루투스 연결"
                 android:summary="스마트 워치와 블루투스 연결 합니다."
                 android:key="blue"
-        />
+                android:defaultValue="true"/>
 
         <SwitchPreference
                 android:defaultValue="false"
