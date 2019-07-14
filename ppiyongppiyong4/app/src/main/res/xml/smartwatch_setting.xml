@@ -2,11 +2,21 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <Preference android:height="69dp" android:layout="@layout/setting_header"/>
     <PreferenceCategory android:title="스마트 와치 설정">
-        <SwitchPreference
-                android:title="블루투스 연결"
-                android:summary="스마트 워치와 블루투스 연결 합니다."
-                android:key="blue"
-                android:defaultValue="true"/>
+        <Preference>
+            <SwitchPreference
+                    android:title="블루투스 연결"
+                    android:summary="스마트 워치와 블루투스 연결 합니다."
+                    android:key="blue"
+                    android:defaultValue="true"
+
+            />
+            <intent
+                    android:action="android.intent.action.MAIN"
+                    android:targetPackage="com.cookandroid.kotlinapp"
+                    android:targetClass="com.cookandroid.kotlinapp.smartWatchSetting"
+            />
+        </Preference>
+
 
         <SwitchPreference
                 android:defaultValue="false"
