@@ -9,12 +9,11 @@ import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
 import kotlinx.android.synthetic.main.header.*
 import kotlinx.android.synthetic.main.login.*
-import kotlinx.android.synthetic.main.login.txtPw
 import org.json.JSONObject
 
 class Login : Common() {
 //아이디이메일 xxxxx@xxxx.xxx 이형식이 맞지 않으면 다시 쓰라고 표시
-//
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
@@ -65,7 +64,7 @@ class Login : Common() {
                         if (response.getString("result").equals("T")){
                             val intent = Intent(this, Main::class.java)
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                             intent.putExtra("email",response.getString("email"))
+                            intent.putExtra("email",response.getString("email"))
 
                              startActivity(intent)
                         }else
