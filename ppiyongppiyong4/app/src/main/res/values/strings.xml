@@ -49,4 +49,7 @@
     <string name="setting">설정</string>
     <string name="check">확인</string>
     <string name="refresh">다시 찾기</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="disconnect">연결 중지</string>
 </resources>
