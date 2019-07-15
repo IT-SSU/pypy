@@ -24,11 +24,11 @@ class Login : Common() {
 
         //로그아웃으로 돌아왔을때 clear!!
         //소스 확실하지 않음!!
-        txtEmail.setText("");
-        txtPw.setText("");
-        chkAutoLogin.isChecked=true;
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        getIntent().removeExtra("email");
+//        txtEmail.setText("");
+//        txtPw.setText("");
+//        chkAutoLogin.isChecked=true;
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        getIntent().removeExtra("email");
 
         val btnlogin = findViewById<Button>(R.id.btnLogin)
 
@@ -60,7 +60,6 @@ class Login : Common() {
                     // Process the json
                     try {
                         println(" Response: $response")
-
                         if (response.getString("result").equals("T")){
                             val intent = Intent(this, Main::class.java)
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
