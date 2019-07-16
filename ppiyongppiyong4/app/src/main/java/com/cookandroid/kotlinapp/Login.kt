@@ -64,7 +64,6 @@ class Login : Common() {
                             val intent = Intent(this, Main::class.java)
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                             intent.putExtra("email",response.getString("email"))
-
                              startActivity(intent)
                         }else
                             Toast.makeText(this, "아이디나 비밀번호가 잘못되었습니다.",Toast.LENGTH_SHORT).show()
