@@ -51,7 +51,7 @@ class Login : Common() {
             val url = "http://61.84.24.251:49090/siren/email_login"
             val params = HashMap<String, String>()
             params["email"] = txtEmail.text.toString()
-            params["user_password"] = txtPw.text.toString()
+            params["password"] = txtPw.text.toString()
             val jsonObject = JSONObject(params)
 
             // Volley post request with parameters
