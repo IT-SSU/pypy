@@ -82,16 +82,20 @@
                             style="@style/join_list_edit"
                             android:hint="@string/pw"
                             android:ems="255"
-                            android:id="@+id/txtPw"
+                            android:id="@+id/txtPwChk"
                             android:inputType="textPassword"
                             android:importantForAutofill="no" tools:targetApi="o"/>
                     <EditText
                             style="@style/join_list_edit"
                             android:hint="@string/pw"
                             android:ems="255"
-                            android:id="@+id/txtPwChk"
+                            android:id="@+id/txtPw"
                             android:inputType="textPassword"
                             android:importantForAutofill="no" tools:targetApi="o"/>
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" app:srcCompat="@android:drawable/ic_delete"
+                            android:id="@+id/imgvPwChk"/>
                 </LinearLayout>
                 <LinearLayout
                         android:orientation="vertical"
