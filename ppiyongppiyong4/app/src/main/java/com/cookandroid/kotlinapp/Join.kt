@@ -95,33 +95,28 @@ class Join : Common() {
                         println(" Response: $response")
 
                         if(response.getString("result").equals("T")){
-
                             Toast.makeText(this, " 회원가입을 축하합니다.",Toast.LENGTH_SHORT).show()
-
                             val intent = Intent(this, JoinOk::class.java)
                             startActivity(intent)
-
                         }else {
                             Toast.makeText(this, " 회원가입에 실패하셨습니다.", Toast.LENGTH_SHORT).show()
                             if ( EmailChk == false ) {
                                 Toast.makeText(this, " 아이디 중복을 확인 해주세요.", Toast.LENGTH_SHORT).show()
                             }
-                            if ( txtPw.equals(txtPwChk) ){
+                            if ( txtPw.text.equals(txtPwChk.text) ){
                             }else
                                 txvPw.setText("비밀번호 : 재입력한 비밀번호을 확인 해주세요.")
-                                txvPw.setTextColor(Color.parseColor("#F24150"))
+                            txvPw.setTextColor(Color.parseColor("#F24150"))
 
                             if(txtName.getText().toString().replace(" ", "").equals("")){
                                 txvName.setText("이름 : 이름을 입력해주세요.")
                                 txvName.setTextColor(Color.parseColor("#F24150"))
                             }
                             if(txtBirth.getText().toString().replace(" ", "").equals("")){
-
                                 txvBirth.setText("생년월일 : 생년월일을 입력해주세요.")
                                 txvBirth.setTextColor(Color.parseColor("#F24150"))
                             }
                             if(txtPhone.getText().toString().replace(" ", "").equals("")){
-
                                 txvPhone.setText("핸드폰 번호 : 번호를 입력해주세요.")
                                 txvPhone.setTextColor(Color.parseColor("#F24150"))
                             }
