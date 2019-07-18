@@ -3,6 +3,8 @@ package com.cookandroid.kotlinapp
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import com.android.volley.DefaultRetryPolicy
@@ -23,6 +25,7 @@ class Join : Common() {
 
         var EmailChk = false
 
+        //중복체크 버튼
         btnEmailChk.setOnClickListener{
             val url = "http://61.84.24.251:49090/siren/emailoverlap"
             val params = HashMap<String,String>()
@@ -68,11 +71,28 @@ class Join : Common() {
             // Add the volley post request to the request queue
             VolleySingleton.getInstance(this).addToRequestQueue(request)
         }
+        //비밀번호 체크 아직 진행중
+        txtPwChk.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (txtPw.text.toString() == txtPwChk.text.toString()){
+                    imgvPwChk.setImageResource(R.drawable.abc_ic_arrow_drop_right_black_24dp)
+                }else {
+                    imgvPwChk.setImageResource(R.drawable.abc_action_bar_item_background_material)
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+            override fun afterTextChanged(s: Editable?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
         //뒤로 가기
         btnHeaderBack.setOnClickListener {
             startActivity(Intent(this,Login::class.java))
         }
-
+        
+        //회원가입 버튼
         btnSubmit.setOnClickListener{
             val url = "http://61.84.24.251:49090/siren/insert"
             //textView.text = ""
@@ -84,7 +104,6 @@ class Join : Common() {
             params["name"] = txtName.text.toString()
             params["date_of_birth"] = txtBirth.text.toString()
             params["tel"] = txtPhone.text.toString()
-
 
             val jsonObject = JSONObject(params)
             // Volley post request with parameters
@@ -103,6 +122,7 @@ class Join : Common() {
                             if ( EmailChk == false ) {
                                 Toast.makeText(this, " 아이디 중복을 확인 해주세요.", Toast.LENGTH_SHORT).show()
                             }
+
                             if ( txtPw.text.equals(txtPwChk.text) ){
                             }else
                                 txvPw.setText("비밀번호 : 재입력한 비밀번호을 확인 해주세요.")
