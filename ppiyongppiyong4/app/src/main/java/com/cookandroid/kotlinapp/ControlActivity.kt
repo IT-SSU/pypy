@@ -21,20 +21,22 @@ class ControlActivity: AppCompatActivity(){
         lateinit var mBluetoothAdapter: BluetoothAdapter
         var mIsConnected: Boolean = false
         lateinit var mAddress:String
-
     }
 
+    //onCreate() 메소드 시작
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.control)
-        mAddress = intent.getStringExtra(bluetoothScan.EXTRA_ADDRESS)
+        mAddress = intent.getStringExtra(BluetoothScan.EXTRA_ADDRESS)
 
         ConnectToDevice(this).execute()
 
+        //버튼들이 클릭 되었을때 발생하는 이벤트
         btnOn.setOnClickListener { sendCommand("a") }
         btnOff.setOnClickListener { sendCommand("b") }
         btnDisconnect.setOnClickListener{ disconnect()}
-    }
+    }//onCreate() 메소드 끝
+
     private fun sendCommand(input: String){
         if(mBluetoothSocket != null){
             try{
