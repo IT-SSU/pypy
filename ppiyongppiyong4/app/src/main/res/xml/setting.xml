@@ -60,11 +60,11 @@
     <PreferenceCategory android:title="헬스케어">
         <Preference
                 android:title="스마트워치 연동"
-                android:key="keyWatchInterlock">
+                android:key="keyBluetoothScan">
             <intent
                     android:action="android.intent.action.MAIN"
                     android:targetPackage="com.cookandroid.kotlinapp"
-                    android:targetClass="com.cookandroid.kotlinapp.smartWatchSetting"
+                    android:targetClass="com.cookandroid.kotlinapp.BluetoothScan"
             />
         </Preference>
     </PreferenceCategory>
