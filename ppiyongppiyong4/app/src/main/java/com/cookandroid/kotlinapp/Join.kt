@@ -80,10 +80,10 @@ class Join : Common() {
             // Form fields and values
             val params = HashMap<String,String>()
             params["email"] = txtEmail.text.toString()
-            params["user_password"] = txtPw.text.toString()
+            params["password"] = txtPw.text.toString()
             params["name"] = txtName.text.toString()
-            params["date_of_birth"] = txtBirth.text.toString()
-            params["tel"] = txtPhone.text.toString()
+            params["birth"] = txtBirth.text.toString()
+            params["phone"] = txtPhone.text.toString()
 
 
             val jsonObject = JSONObject(params)
