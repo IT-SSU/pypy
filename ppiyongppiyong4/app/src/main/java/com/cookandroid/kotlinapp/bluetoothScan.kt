@@ -5,14 +5,14 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceActivity
 import android.util.Log
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ListAdapter
 import kotlinx.android.synthetic.main.bluetooth_scan.*
 import org.jetbrains.anko.toast
 
-class bluetoothScan: PreferenceActivity() {
+class BluetoothScan: Common() {
 
     private var mBluetoothAdapter:BluetoothAdapter? = null
     private lateinit var mPairedDevice: Set<BluetoothDevice>
@@ -22,25 +22,30 @@ class bluetoothScan: PreferenceActivity() {
         val EXTRA_ADDRESS: String = "Device_address"
     }
 
+    //onCreate() 메소드 시작
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.bluetooth_scan)
 
+        //블루투스를 지원하는 디바이스인지 판별하는 메소드
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         if(mBluetoothAdapter == null){
             toast("블루투스를 지원 하지 않는 디바이스 입니다.")
             return
         }
+
         if(!mBluetoothAdapter!!.isEnabled){
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH)
         }
 
+
         select_device_refresh.setOnClickListener {
             mPairedDevicedDeviceList()
         }
+    }//onCreate() 메소드 끝
 
-    }
+    //블루투스를 지원 하는 디바이스 불러오는 메소드
     private fun mPairedDevicedDeviceList() {
         mPairedDevice = mBluetoothAdapter!!.bondedDevices
         val list : ArrayList<BluetoothDevice> = ArrayList()
@@ -55,8 +60,8 @@ class bluetoothScan: PreferenceActivity() {
         }
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
-        select_device_list.adapter = adapter
-        select_device_list.onItemClickListener = AdapterView.OnItemClickListener{_,_,position,_ ->
+        select_device_list.adapter = adapter as ListAdapter?
+        select_device_list.onItemClickListener = AdapterView.OnItemClickListener{ _, _, position, _ ->
             val device:BluetoothDevice = list[position]
             val address:String = device.address
             val intent = Intent(this, ControlActivity::class.java)
