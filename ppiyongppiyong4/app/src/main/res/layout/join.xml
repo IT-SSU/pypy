@@ -85,6 +85,7 @@
                             android:id="@+id/txtPwChk"
                             android:inputType="textPassword"
                             android:importantForAutofill="no" tools:targetApi="o"/>
+
                     <EditText
                             style="@style/join_list_edit"
                             android:hint="@string/pw"
@@ -93,8 +94,8 @@
                             android:inputType="textPassword"
                             android:importantForAutofill="no" tools:targetApi="o"/>
                     <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" app:srcCompat="@android:drawable/ic_delete"
+                            android:layout_width="51dp"
+                            android:layout_height="48dp" app:srcCompat="@drawable/white_check_mark"
                             android:id="@+id/imgvPwChk"/>
                 </LinearLayout>
                 <LinearLayout
@@ -180,7 +181,8 @@
                         style="@style/join_list"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:id="@+id/joinList7" app:layout_constraintTop_toBottomOf="@+id/joinList6">
-                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <CheckBox android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/ChkPrivacy"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/term_txt1" android:textColor="@color/colorSub"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/term_txt2"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/term_txt3" android:textColor="@color/colorSub" />
