@@ -24,6 +24,7 @@ class Join : Common() {
         btnHeaderSetting.visibility = View.GONE
 
         var EmailChk = false
+        var PwChk = false
 
         //중복체크 버튼
         btnEmailChk.setOnClickListener{
@@ -74,17 +75,23 @@ class Join : Common() {
         //비밀번호 체크 아직 진행중
         txtPwChk.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (txtPw.text.toString() == txtPwChk.text.toString()){
-                    imgvPwChk.setImageResource(R.drawable.abc_ic_arrow_drop_right_black_24dp)
-                }else {
-                    imgvPwChk.setImageResource(R.drawable.abc_action_bar_item_background_material)
+                if(txtPw.text.toString().length == 0){
+                    imgvPwChk.setImageResource(R.drawable.cancel_mark)
+                    PwChk = false
+                }
+                if (txtPw.text.toString().equals(txtPwChk.text.toString())){
+                    PwChk = true
+                    imgvPwChk.setImageResource(R.drawable.green_check_mark)
+                }else if( txtPw!!.text.toString().equals(txtPwChk) && txtPw.text.toString().length == 0){
+                    PwChk = false
+                    imgvPwChk.setImageResource(R.drawable.cancel_mark)
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
             override fun afterTextChanged(s: Editable?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
             }
         })
         //뒤로 가기
@@ -113,7 +120,7 @@ class Join : Common() {
                     try {
                         println(" Response: $response")
 
-                        if(response.getString("result").equals("T")){
+                        if(response.getString("result").equals("T") && PwChk == true && ChkPrivacy.isChecked){
                             Toast.makeText(this, " 회원가입을 축하합니다.",Toast.LENGTH_SHORT).show()
                             val intent = Intent(this, JoinOk::class.java)
                             startActivity(intent)
@@ -122,12 +129,11 @@ class Join : Common() {
                             if ( EmailChk == false ) {
                                 Toast.makeText(this, " 아이디 중복을 확인 해주세요.", Toast.LENGTH_SHORT).show()
                             }
-
-                            if ( txtPw.text.equals(txtPwChk.text) ){
-                            }else
+                            if (PwChk == true){
+                            }else{
                                 txvPw.setText("비밀번호 : 재입력한 비밀번호을 확인 해주세요.")
-                            txvPw.setTextColor(Color.parseColor("#F24150"))
-
+                                txvPw.setTextColor(Color.parseColor("#F24150"))
+                            }
                             if(txtName.getText().toString().replace(" ", "").equals("")){
                                 txvName.setText("이름 : 이름을 입력해주세요.")
                                 txvName.setTextColor(Color.parseColor("#F24150"))
