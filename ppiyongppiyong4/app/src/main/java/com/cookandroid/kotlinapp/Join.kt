@@ -14,6 +14,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import kotlinx.android.synthetic.main.header.*
 import kotlinx.android.synthetic.main.join.*
 import org.json.JSONObject
+import java.util.regex.Pattern
 
 class Join : Common() {
 
@@ -26,6 +27,18 @@ class Join : Common() {
         var EmailChk = false
         var PwChk = false
 
+        //이메일 형식 체크 - 이메일 정규식 표현
+        txtEmail.setOnFocusChangeListener(View.OnFocusChangeListener{ v, hasFocus ->
+            if (hasFocus) {
+                //패턴 설정
+                val p = Pattern.compile("^[a-zA-X0-9]@[a-zA-Z0-9].[a-zA-Z0-9]")
+                val m = p.matcher(txtEmail.getText().toString())
+                //패턴에 맞는지 확인
+                if (!m.matches()){
+                    Toast.makeText(this, "Email형식으 입력해주세요.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
         //중복체크 버튼
         btnEmailChk.setOnClickListener{
             val url = "http://61.84.24.251:49090/siren/emailoverlap"
@@ -74,12 +87,11 @@ class Join : Common() {
         }
         //비밀번호 체크 아직 진행중
         txtPwChk.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(txtPw.text.toString().length == 0){
-                    imgvPwChk.setImageResource(R.drawable.cancel_mark)
-                    PwChk = false
-                }
-                if (txtPw.text.toString().equals(txtPwChk.text.toString())){
+                if (txtPw.equals(txtPwChk)){
                     PwChk = true
                     imgvPwChk.setImageResource(R.drawable.green_check_mark)
                 }else if( txtPw!!.text.toString().equals(txtPwChk) && txtPw.text.toString().length == 0){
@@ -87,9 +99,7 @@ class Join : Common() {
                     imgvPwChk.setImageResource(R.drawable.cancel_mark)
                 }
             }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-            }
             override fun afterTextChanged(s: Editable?) {
 
             }
@@ -128,6 +138,12 @@ class Join : Common() {
                             Toast.makeText(this, " 회원가입에 실패하셨습니다.", Toast.LENGTH_SHORT).show()
                             if ( EmailChk == false ) {
                                 Toast.makeText(this, " 아이디 중복을 확인 해주세요.", Toast.LENGTH_SHORT).show()
+                            }
+                            //비밀번호를 쓰지 않았을 때
+                            if(txtPw.text.toString().length == 0){
+                                txvPw.setText("비밀번호 : 비밀번호를 입력해주세요.")
+                                imgvPwChk.setImageResource(R.drawable.cancel_mark)
+                                PwChk = false
                             }
                             if (PwChk == true){
                             }else{
