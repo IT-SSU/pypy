@@ -24,7 +24,8 @@ class Join : Common() {
         txtHeaderTitle.text="회원가입";
         btnHeaderSetting.visibility = View.GONE
 
-        var EmailChk = false
+        var EmailChk =  false
+        var EmailFormChk = false
         var PwChk = false
 
         //이메일 형식 체크 - 이메일 정규식 표현
@@ -35,15 +36,20 @@ class Join : Common() {
                 val m = p.matcher(txtEmail.getText().toString())
                 //패턴에 맞는지 확인
                 if (!m.matches()){
+                    //패턴에 맞지않으면
                     Toast.makeText(this, "Email형식으 입력해주세요.", Toast.LENGTH_SHORT).show()
-                }
+                    EmailFormChk = false
+                }else
+                    EmailFormChk = true
             }
         })
         //중복체크 버튼
         btnEmailChk.setOnClickListener{
             val url = "http://61.84.24.251:49090/siren/emailoverlap"
             val params = HashMap<String,String>()
+            //서버쪽으로 Email을 보낸다.
             params["email"] = txtEmail.text.toString()
+            //json 형식으로
             val jsonObject = JSONObject(params)
             // Volley post request with parameters
             val request = JsonObjectRequest(Request.Method.POST,url,jsonObject,
@@ -55,10 +61,12 @@ class Join : Common() {
                         if(response.getString("result").equals("T")){
 
                             Toast.makeText(this, "사용 가능한 이메일 입니다.", Toast.LENGTH_SHORT).show()
+                            EmailFormChk = true
                             EmailChk = true
                         }else {
                             Toast.makeText(this, "이미 사용 중인 이메일 입니다.", Toast.LENGTH_SHORT).show()
                             EmailChk = false
+                            EmailFormChk = false
                         }
 
                         //println(response.getString("result"))
@@ -116,12 +124,14 @@ class Join : Common() {
             // Post parameters
             // Form fields and values
             val params = HashMap<String,String>()
+            //서버쪽으로 Email, Password, Name, Birth, Phone을 보낸다.
             params["email"] = txtEmail.text.toString()
             params["password"] = txtPw.text.toString()
             params["name"] = txtName.text.toString()
             params["birth"] = txtBirth.text.toString()
             params["phone"] = txtPhone.text.toString()
 
+            //json 형식으로
             val jsonObject = JSONObject(params)
             // Volley post request with parameters
             val request = JsonObjectRequest(Request.Method.POST,url,jsonObject,
@@ -129,7 +139,7 @@ class Join : Common() {
                     // Process the json
                     try {
                         println(" Response: $response")
-
+                        //응답받은 result 값이 T 이면 회원 가입
                         if(response.getString("result").equals("T") && PwChk == true && ChkPrivacy.isChecked){
                             Toast.makeText(this, " 회원가입을 축하합니다.",Toast.LENGTH_SHORT).show()
                             val intent = Intent(this, JoinOk::class.java)
@@ -146,7 +156,8 @@ class Join : Common() {
                                 PwChk = false
                             }
                             if (PwChk == true){
-                            }else{
+                            }
+                            else{
                                 txvPw.setText("비밀번호 : 재입력한 비밀번호을 확인 해주세요.")
                                 txvPw.setTextColor(Color.parseColor("#F24150"))
                             }
