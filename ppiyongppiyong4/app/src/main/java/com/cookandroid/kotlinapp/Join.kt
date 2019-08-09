@@ -25,22 +25,27 @@ class Join : Common() {
         btnHeaderSetting.visibility = View.GONE
 
         var EmailChk =  false
-        var EmailFormChk = false
+        var FormChk = false
         var PwChk = false
 
         //이메일 형식 체크 - 이메일 정규식 표현
         txtEmail.setOnFocusChangeListener(View.OnFocusChangeListener{ v, hasFocus ->
             if (hasFocus) {
                 //패턴 설정
-                val p = Pattern.compile("^[a-zA-X0-9]@[a-zA-Z0-9].[a-zA-Z0-9]")
+                val p = Pattern.compile("^[a-zA-Z0-9]@[a-zA-Z0-9].[a-zA-Z0-9]")
                 val m = p.matcher(txtEmail.getText().toString())
                 //패턴에 맞는지 확인
                 if (!m.matches()){
                     //패턴에 맞지않으면
-                    Toast.makeText(this, "Email형식으 입력해주세요.", Toast.LENGTH_SHORT).show()
-                    EmailFormChk = false
+                    Toast.makeText(this, "Email형식으로 입력해주세요.", Toast.LENGTH_SHORT).show()
+                    FormChk = false
+                    println(FormChk)
                 }else
-                    EmailFormChk = true
+                {
+                    FormChk = true
+                    Toast.makeText(this, "Email입력 완료!", Toast.LENGTH_SHORT).show()
+                    println(FormChk)
+                }
             }
         })
         //중복체크 버튼
@@ -61,12 +66,12 @@ class Join : Common() {
                         if(response.getString("result").equals("T")){
 
                             Toast.makeText(this, "사용 가능한 이메일 입니다.", Toast.LENGTH_SHORT).show()
-                            EmailFormChk = true
+                            FormChk = true
                             EmailChk = true
                         }else {
                             Toast.makeText(this, "이미 사용 중인 이메일 입니다.", Toast.LENGTH_SHORT).show()
                             EmailChk = false
-                            EmailFormChk = false
+                            FormChk = false
                         }
 
                         //println(response.getString("result"))
