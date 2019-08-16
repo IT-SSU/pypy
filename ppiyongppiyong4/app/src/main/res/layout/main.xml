@@ -64,19 +64,18 @@
     <android.support.constraint.ConstraintLayout
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutProfile"
+            app:layout_constraintTop_toBottomOf="@id/layoutProfile"
             android:layout_height="407dp"
             android:layout_width="408dp" android:id="@+id/layoutPosition">
         <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="내 위치"
+                android:text="@string/my_position"
                 android:ems="10"
                 android:id="@+id/txtMyAdd" app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/map" app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"/>
+                app:layout_constraintStart_toStartOf="parent"
+                android:padding="10dp"/>
         <fragment
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:id="@+id/map"
