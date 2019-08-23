@@ -94,10 +94,6 @@ class Join : Common() {
 
             }
         })
-        //뒤로 가기
-        btnHeaderBack.setOnClickListener {
-            startActivity(Intent(this,Login::class.java))
-        }
         
         //회원가입 버튼
         btnSubmit.setOnClickListener{
