@@ -25,98 +25,93 @@ class Join : Common() {
         btnHeaderSetting.visibility = View.GONE
 
         var EmailChk =  false
-        var FormChk = false
         var PwChk = false
 
         //이메일 형식 체크 - 이메일 정규식 표현
-        txtEmail.setOnFocusChangeListener(View.OnFocusChangeListener{ v, hasFocus ->
-            if (hasFocus) {
-                //패턴 설정
-                val p = Pattern.compile("^[a-zA-Z0-9]@[a-zA-Z0-9].[a-zA-Z0-9]")
-                val m = p.matcher(txtEmail.getText().toString())
-                //패턴에 맞는지 확인
-                if (!m.matches()){
-                    //패턴에 맞지않으면
-                    Toast.makeText(this, "Email형식으로 입력해주세요.", Toast.LENGTH_SHORT).show()
-                    FormChk = false
-                    println(FormChk)
-                }else
-                {
-                    FormChk = true
-                    Toast.makeText(this, "Email입력 완료!", Toast.LENGTH_SHORT).show()
-                    println(FormChk)
-                }
-            }
-        })
         //중복체크 버튼
         btnEmailChk.setOnClickListener{
-            val url = "http://61.84.24.251:49090/siren/emailoverlap"
-            val params = HashMap<String,String>()
-            //서버쪽으로 Email을 보낸다.
-            params["email"] = txtEmail.text.toString()
-            //json 형식으로
-            val jsonObject = JSONObject(params)
-            // Volley post request with parameters
-            val request = JsonObjectRequest(Request.Method.POST,url,jsonObject,
-                Response.Listener { response ->
-                    // Process the json
-                    try {
-                        println(" Response: $response")
+            //패턴 설정
+            val reEmail = "([\\w-+]+(?:\\.[\\w-+]+)*@(?:[\\w-]+\\.)+[a-zA-Z]{2,7})"
 
-                        if(response.getString("result").equals("T")){
+            val pEmail = Pattern.compile(reEmail, Pattern.CASE_INSENSITIVE or Pattern.DOTALL)
+            val mEmail = pEmail.matcher(txtEmail.getText().toString())
+            //이메일 정규화를 확인
+            if (!mEmail.matches()){
+                //패턴에 맞지않으면
+                Toast.makeText(this, "Email형식으로 입력해주세요.", Toast.LENGTH_SHORT).show()
+                EmailChk = false
+                println(EmailChk)
+            }else
+            {
+                println(EmailChk)
+                val url = "http://61.84.24.251:49090/siren/emailoverlap"
+                val params = HashMap<String,String>()
+                //서버쪽으로 Email을 보낸다.
+                params["email"] = txtEmail.text.toString()
+                //json 형식으로
+                val jsonObject = JSONObject(params)
+                // Volley post request with parameters
+                val request = JsonObjectRequest(Request.Method.POST,url,jsonObject,
+                    Response.Listener { response ->
+                        // Process the json
+                        try {
+                            println(" Response: $response")
 
-                            Toast.makeText(this, "사용 가능한 이메일 입니다.", Toast.LENGTH_SHORT).show()
-                            FormChk = true
-                            EmailChk = true
-                        }else {
-                            Toast.makeText(this, "이미 사용 중인 이메일 입니다.", Toast.LENGTH_SHORT).show()
-                            EmailChk = false
-                            FormChk = false
+                            if(response.getString("result").equals("T")){
+
+                                Toast.makeText(this, "사용 가능한 이메일 입니다.", Toast.LENGTH_SHORT).show()
+                                EmailChk = true
+                            }else {
+                                Toast.makeText(this, "이미 사용 중인 이메일 입니다.", Toast.LENGTH_SHORT).show()
+                                EmailChk = false
+                            }
+                            //println(response.getString("result"))
+                            //txtId.text = "Response: $response"
+                        }catch (e:Exception){
+                            println(" Exception: $e")
+                            //txtPw.text = "Exception: $e"
                         }
 
-                        //println(response.getString("result"))
-                        //txtId.text = "Response: $response"
-                    }catch (e:Exception){
-                        println(" Exception: $e")
-                        //txtPw.text = "Exception: $e"
+                    }, Response.ErrorListener{
+                        // Error in request
+                        println(" Volley error: $it")
+                        //txtId.text = "Volley error: $it"
                     }
+                )
 
-                }, Response.ErrorListener{
-                    // Error in request
-                    println(" Volley error: $it")
-                    //txtId.text = "Volley error: $it"
-                }
-            )
+                request.retryPolicy = DefaultRetryPolicy(
+                    DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                    // 0 means no retry
+                    0, // DefaultRetryPolicy.DEFAULT_MAX_RETRIES = 2
+                    1f // DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                )
 
-            request.retryPolicy = DefaultRetryPolicy(
-                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-                // 0 means no retry
-                0, // DefaultRetryPolicy.DEFAULT_MAX_RETRIES = 2
-                1f // DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-            )
-
-            // Add the volley post request to the request queue
-            VolleySingleton.getInstance(this).addToRequestQueue(request)
+                // Add the volley post request to the request queue
+                VolleySingleton.getInstance(this).addToRequestQueue(request)
+            }
         }
-        //비밀번호 체크 아직 진행중
+        //비밀번호 체크
         txtPwChk.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (txtPw.equals(txtPwChk)){
+                val password = txtPwChk.getText().toString()
+                val confirm = txtPwChk.getText().toString()
+                if (password.equals(confirm)){
                     PwChk = true
-                    imgvPwChk.setImageResource(R.drawable.green_check_mark)
-                }else if( txtPw!!.text.toString().equals(txtPwChk) && txtPw.text.toString().length == 0){
+                    txtPw.setBackgroundColor(Color.GREEN)
+                    txtPwChk.setBackgroundColor(Color.GREEN)
+                }else {
                     PwChk = false
-                    imgvPwChk.setImageResource(R.drawable.cancel_mark)
+                    txtPw.setBackgroundColor(Color.RED)
+                    txtPwChk.setBackgroundColor(Color.RED)
                 }
             }
-
             override fun afterTextChanged(s: Editable?) {
 
             }
         })
+
         //뒤로 가기
         btnHeaderBack.setOnClickListener {
             startActivity(Intent(this,Login::class.java))
@@ -124,6 +119,27 @@ class Join : Common() {
         
         //회원가입 버튼
         btnSubmit.setOnClickListener{
+
+            val reName =
+            "(^[가-힣]*\$)"    //이름
+
+            val pName = Pattern.compile(reName, Pattern.CASE_INSENSITIVE or Pattern.DOTALL)
+            val mName = pName.matcher(txtBirth.getText().toString())
+
+            if(!mName.matches()){
+                Toast.makeText(this, "이름이 형식이 맞지않습니다.(홍길동)",Toast.LENGTH_SHORT)
+            }
+
+            val reID =
+                "((?:(?:[1]{1}\\d{1}\\d{1}\\d{1})|(?:[2]{1}\\d{3}))(?:[0]?[1-9]|[1][012])(?:(?:[0-2]?\\d{1})|(?:[3][01]{1})))(?![\\d])"    // YYYYMMDD 1
+
+            val pID = Pattern.compile(reID, Pattern.CASE_INSENSITIVE or Pattern.DOTALL)
+            val mID = pID.matcher(txtBirth.getText().toString())
+
+            if(!mID.matches()){
+                Toast.makeText(this, "생년월일에 형식이 맞지않습니다.(20190824)",Toast.LENGTH_SHORT)
+            }
+
             val url = "http://61.84.24.251:49090/siren/insert"
             //textView.text = ""
             // Post parameters
@@ -151,15 +167,6 @@ class Join : Common() {
                             startActivity(intent)
                         }else {
                             Toast.makeText(this, " 회원가입에 실패하셨습니다.", Toast.LENGTH_SHORT).show()
-                            if ( EmailChk == false ) {
-                                Toast.makeText(this, " 아이디 중복을 확인 해주세요.", Toast.LENGTH_SHORT).show()
-                            }
-                            //비밀번호를 쓰지 않았을 때
-                            if(txtPw.text.toString().length == 0){
-                                txvPw.setText("비밀번호 : 비밀번호를 입력해주세요.")
-                                imgvPwChk.setImageResource(R.drawable.cancel_mark)
-                                PwChk = false
-                            }
                             if (PwChk == true){
                             }
                             else{
