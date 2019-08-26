@@ -43,6 +43,7 @@ import org.jetbrains.anko.yesButton
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
+import android.os.Handler
 
 
 class Main : Common(), OnMapReadyCallback {
@@ -111,13 +112,15 @@ class Main : Common(), OnMapReadyCallback {
         btnReport.setOnClickListener {
             setpermission()
             val settings: SharedPreferences = getSharedPreferences("userNumber", MODE_PRIVATE)
-
+            var protectDetailList = arrayListOf<ProtectTel>() //보호자 리스트
             var userDetailList = arrayListOf<UserDetail>() //병 + 세부사항 리스트
-            var url = "http://61.84.24.251:49090/siren/detailInfo" //회원 병, 세부사항 목록
+
+            var url = "http://61.84.24.251:49090/siren/smsSendData" //회원 병, 세부사항 목록
             var params = HashMap<String, String>()
             params["userNum"] = settings.getString("userNum",null)
-
+            params["email"] = settings.getString("email",null)
             var jsonObject = JSONObject(params)
+
             val request1 = JsonObjectRequest(Request.Method.POST,url,jsonObject,
                 Response.Listener { response ->
                     // Process the json
@@ -127,9 +130,8 @@ class Main : Common(), OnMapReadyCallback {
                             //num1 = response.getString("number").toInt()
                             //println(response.getString("number"))
                             //response.getJSONArray("detail")
-
                             val jsonArray = response?.getJSONArray("detail")// ?? 확인
-                            var i = 0
+                            //세부사항 데이터 저장
                             for (i in 0..jsonArray?.length()!! - 1) { //병 및 세부사항 저장
                                 jsonObject = jsonArray?.getJSONObject(i)!!
                                 if (jsonObject != null) {
@@ -144,6 +146,47 @@ class Main : Common(), OnMapReadyCallback {
 
                                 }
                             }
+                            // 보호자 연락처 저장
+                            val jsonArray2 = response?.getJSONArray("protect")// ?? 확인
+                            for (i in 0..jsonArray2?.length()!! - 1) {
+                                jsonObject = jsonArray2?.getJSONObject(i)!!
+                                if (jsonObject != null) {
+                                    protectDetailList.add(
+                                        ProtectTel(
+                                            jsonObject.getInt("userNum"),
+                                            jsonObject.getString("protectCode"),
+                                            jsonObject.getString("protectName"),
+                                            jsonObject.getString("protectPhone"),
+                                            jsonObject.getString("protectRelation")
+                                        )
+                                    )
+                                }
+                            }
+
+                            // 저장한 데이터
+                            val smsManager = SmsManager.getDefault()
+                            //처음으로 보낼 메세지 만들기
+                            var message = "${txtMyAdd.text}에 ${response.getString("name")} 환자가 발생했다. 보유 질병은 "
+                            for (j in userDetailList){// 리스트 수만큼 추가
+                                message = message + "${j.diseaseName}가 있고 세부사항으로는 ${j.detailContent}가 있습니다. "
+
+                            }
+                            println()
+                            //두번째로는 보호자 번호에 맞게 문자를 보내기
+                            for (i in protectDetailList) {
+                                var phoneNumber = i.protectPhone
+                                smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+                                //smsManager.sendTextMessage("01093098508", null, message, null, null)
+                                Toast.makeText(getApplicationContext(), "${phoneNumber} 전송 성공", Toast.LENGTH_LONG).show();
+                            }
+
+                            //val message = "${txtMyAdd.text}에 ${response.getString("name")} 환자가 발생했다."
+                            //print(message)
+                            //smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+                            //smsManager.sendTextMessage("01093098508", null, message, null, null)
+                            //Toast.makeText(getApplicationContext(), "전송 성공", Toast.LENGTH_LONG).show();
+                            //startActivity(intent)
+
                         }
                     }catch (e:Exception){
                         println(" Exception: $e")
@@ -165,111 +208,6 @@ class Main : Common(), OnMapReadyCallback {
             // Add the volley post request to the request queue
             VolleySingleton.getInstance(this).addToRequestQueue(request1)
 
-
-            url = "http://61.84.24.251:49090/siren/protectInfo" //보호자 연락처 가져오기
-            //params = HashMap<String, String>()
-            params["userNum"] = settings.getString("userNum",null)
-            var protectDetailList = arrayListOf<ProtectTel>() //보호자 리스트
-            jsonObject = JSONObject(params)
-            val request2 = JsonObjectRequest(Request.Method.POST,url,jsonObject,
-                Response.Listener { response ->
-                    // Process the json
-                    try {
-                        println(" Response: $response")
-                        val jsonArray = response?.getJSONArray("protect")// ?? 확인
-                        var i = 0
-                        for (i in 0..jsonArray?.length()!! - 1) {
-                            jsonObject = jsonArray?.getJSONObject(i)!!
-                            if (jsonObject != null) {
-                                protectDetailList.add(
-                                    ProtectTel(
-                                        jsonObject.getInt("userNum"),
-                                        jsonObject.getString("protectCode"),
-                                        jsonObject.getString("protectName"),
-                                        jsonObject.getString("protectPhone"),
-                                        jsonObject.getString("protectRelation")
-                                    )
-                                )
-                            }
-                        }
-                    }catch (e:Exception){
-                        println(" Exception: $e")
-                        Toast.makeText(getApplicationContext(), "전송 실패2", Toast.LENGTH_LONG).show();
-                        //txtPw.text = "Exception: $e"
-                    }
-
-                }, Response.ErrorListener{
-                    // Error in request
-                    println(" Volley error: $it")
-                    //txtId.text = "Volley error: $it"
-                }
-            )
-            request2.retryPolicy = DefaultRetryPolicy(
-                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-                // 0 means no retry
-                0, // DefaultRetryPolicy.DEFAULT_MAX_RETRIES = 2
-                1f // DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-            )
-            // Add the volley post request to the request queue
-            VolleySingleton.getInstance(this).addToRequestQueue(request2)
-
-
-
-            url = "http://61.84.24.251:49090/siren/userinfo" //회원 정보 가져오기
-            params["email"] =  settings.getString("email",null)
-            jsonObject = JSONObject(params)
-
-            // Volley post request with parameters
-            val request3 = JsonObjectRequest(Request.Method.POST,url,jsonObject,
-                Response.Listener { response ->
-                    // Process the json
-                    try {
-
-                        println(" Response: $response")
-                        val smsManager = SmsManager.getDefault()
-                        //처음으로 보낼 메세지 만들기
-                        var message = "${txtMyAdd.text}에 ${response.getString("name")} 환자가 발생했다. 보유 질병은 "
-                        for (j in userDetailList){// 리스트 수만큼 추가
-                            message = message + "${j.diseaseName}가 있고 세부사항으로는 ${j.detailContent}가 있습니다. "
-
-                        }
-                        println()
-                        //두번째로는 보호자 번호에 맞게 문자를 보내기
-                        for (i in protectDetailList) {
-                            var phoneNumber = i.protectPhone
-                            smsManager.sendTextMessage(phoneNumber, null, message, null, null)
-                            //smsManager.sendTextMessage("01093098508", null, message, null, null)
-                            Toast.makeText(getApplicationContext(), "${phoneNumber} 전송 성공", Toast.LENGTH_LONG).show();
-                        }
-
-                        //val message = "${txtMyAdd.text}에 ${response.getString("name")} 환자가 발생했다."
-                        //print(message)
-                        //smsManager.sendTextMessage(phoneNumber, null, message, null, null)
-                        //smsManager.sendTextMessage("01093098508", null, message, null, null)
-                        //Toast.makeText(getApplicationContext(), "전송 성공", Toast.LENGTH_LONG).show();
-                        //startActivity(intent)
-
-                    }catch (e:Exception){
-                        println(" Exception: $e")
-                        Toast.makeText(getApplicationContext(), "전송 실패 전화번호를 확인해 주세요.", Toast.LENGTH_LONG).show();
-                        //txtPw.text = "Exception: $e"
-                    }
-
-                }, Response.ErrorListener{
-                    // Error in request
-                    println(" Volley error: $it")
-                    //txtId.text = "Volley error: $it"
-                }
-            )
-
-            request3.retryPolicy = DefaultRetryPolicy(
-                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-                // 0 means no retry
-                0, // DefaultRetryPolicy.DEFAULT_MAX_RETRIES = 2
-                1f // DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-            )
-            // Add the volley post request to the request queue
-            VolleySingleton.getInstance(this).addToRequestQueue(request3)
         }
 
     }
