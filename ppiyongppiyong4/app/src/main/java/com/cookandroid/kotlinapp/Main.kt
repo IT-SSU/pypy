@@ -2,13 +2,16 @@ package com.cookandroid.kotlinapp
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.net.Uri
+import android.nfc.Tag
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
@@ -41,6 +44,7 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.*
 
+
 class Main : Common(), OnMapReadyCallback {
     private val REQUEST_ACCESS_FINE_LOCATION = 1000
     lateinit var geocoder : Geocoder
@@ -58,11 +62,11 @@ class Main : Common(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setpermission()
+        val settings: SharedPreferences = getSharedPreferences("userNumber", MODE_PRIVATE)
         val url = "http://61.84.24.251:49090/siren/userinfo"
         val params = HashMap<String, String>()
-        var email = intent.getStringExtra("email")
-        params["email"] = email
+        params["email"] = settings.getString("email",null)
         val jsonObject = JSONObject(params)
 
         val request = JsonObjectRequest(Request.Method.POST,url,jsonObject,
@@ -105,31 +109,149 @@ class Main : Common(), OnMapReadyCallback {
         locationInit()
 
         btnReport.setOnClickListener {
-            val url = "http://61.84.24.251:49090/siren/userinfo"
-            val params = HashMap<String, String>()
-            var email = intent.getStringExtra("email")
-            params["email"] = email
-            val jsonObject = JSONObject(params)
+            setpermission()
+            val settings: SharedPreferences = getSharedPreferences("userNumber", MODE_PRIVATE)
 
-            // Volley post request with parameters
-            val request = JsonObjectRequest(Request.Method.POST,url,jsonObject,
+            var userDetailList = arrayListOf<UserDetail>() //병 + 세부사항 리스트
+            var url = "http://61.84.24.251:49090/siren/detailInfo" //회원 병, 세부사항 목록
+            var params = HashMap<String, String>()
+            params["userNum"] = settings.getString("userNum",null)
+
+            var jsonObject = JSONObject(params)
+            val request1 = JsonObjectRequest(Request.Method.POST,url,jsonObject,
                 Response.Listener { response ->
                     // Process the json
                     try {
                         println(" Response: $response")
+                        if (response.getString("result").equals("T")) {
+                            //num1 = response.getString("number").toInt()
+                            //println(response.getString("number"))
+                            //response.getJSONArray("detail")
 
-                        var phoneNumber = "01031987632"
-                        val message = "${address}에 ${response.getString("name")} 환자가 발생했다."
+                            val jsonArray = response?.getJSONArray("detail")// ?? 확인
+                            var i = 0
+                            for (i in 0..jsonArray?.length()!! - 1) { //병 및 세부사항 저장
+                                jsonObject = jsonArray?.getJSONObject(i)!!
+                                if (jsonObject != null) {
+                                    userDetailList.add(
+                                        UserDetail(
+                                            jsonObject.getInt("userNum"),
+                                            jsonObject.getString("detailCode"),
+                                            jsonObject.getString("diseaseName"),
+                                            jsonObject.getString("detailContent")
+                                        )
+                                    )
 
-                        val smsUri = Uri.parse("smsto:" + phoneNumber)
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        intent.data = smsUri
+                                }
+                            }
+                        }
+                    }catch (e:Exception){
+                        println(" Exception: $e")
+                        Toast.makeText(getApplicationContext(), "전송 실패1", Toast.LENGTH_LONG).show();
+                        //txtPw.text = "Exception: $e"
+                    }
+                }, Response.ErrorListener{
+                    // Error in request
+                    println(" Volley error: $it")
+                    //txtId.text = "Volley error: $it"
+                }
+            )
+            request1.retryPolicy = DefaultRetryPolicy(
+                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                // 0 means no retry
+                0, // DefaultRetryPolicy.DEFAULT_MAX_RETRIES = 2
+                1f // DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+            // Add the volley post request to the request queue
+            VolleySingleton.getInstance(this).addToRequestQueue(request1)
 
-                        startActivity(intent)
+
+            url = "http://61.84.24.251:49090/siren/protectInfo" //보호자 연락처 가져오기
+            //params = HashMap<String, String>()
+            params["userNum"] = settings.getString("userNum",null)
+            var protectDetailList = arrayListOf<ProtectTel>() //보호자 리스트
+            jsonObject = JSONObject(params)
+            val request2 = JsonObjectRequest(Request.Method.POST,url,jsonObject,
+                Response.Listener { response ->
+                    // Process the json
+                    try {
+                        println(" Response: $response")
+                        val jsonArray = response?.getJSONArray("protect")// ?? 확인
+                        var i = 0
+                        for (i in 0..jsonArray?.length()!! - 1) {
+                            jsonObject = jsonArray?.getJSONObject(i)!!
+                            if (jsonObject != null) {
+                                protectDetailList.add(
+                                    ProtectTel(
+                                        jsonObject.getInt("userNum"),
+                                        jsonObject.getString("protectCode"),
+                                        jsonObject.getString("protectName"),
+                                        jsonObject.getString("protectPhone"),
+                                        jsonObject.getString("protectRelation")
+                                    )
+                                )
+                            }
+                        }
+                    }catch (e:Exception){
+                        println(" Exception: $e")
+                        Toast.makeText(getApplicationContext(), "전송 실패2", Toast.LENGTH_LONG).show();
+                        //txtPw.text = "Exception: $e"
+                    }
+
+                }, Response.ErrorListener{
+                    // Error in request
+                    println(" Volley error: $it")
+                    //txtId.text = "Volley error: $it"
+                }
+            )
+            request2.retryPolicy = DefaultRetryPolicy(
+                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                // 0 means no retry
+                0, // DefaultRetryPolicy.DEFAULT_MAX_RETRIES = 2
+                1f // DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+            // Add the volley post request to the request queue
+            VolleySingleton.getInstance(this).addToRequestQueue(request2)
+
+
+
+            url = "http://61.84.24.251:49090/siren/userinfo" //회원 정보 가져오기
+            params["email"] =  settings.getString("email",null)
+            jsonObject = JSONObject(params)
+
+            // Volley post request with parameters
+            val request3 = JsonObjectRequest(Request.Method.POST,url,jsonObject,
+                Response.Listener { response ->
+                    // Process the json
+                    try {
+
+                        println(" Response: $response")
+                        val smsManager = SmsManager.getDefault()
+                        //처음으로 보낼 메세지 만들기
+                        var message = "${txtMyAdd.text}에 ${response.getString("name")} 환자가 발생했다. 보유 질병은 "
+                        for (j in userDetailList){// 리스트 수만큼 추가
+                            message = message + "${j.diseaseName}가 있고 세부사항으로는 ${j.detailContent}가 있습니다. "
+
+                        }
+                        println()
+                        //두번째로는 보호자 번호에 맞게 문자를 보내기
+                        for (i in protectDetailList) {
+                            var phoneNumber = i.protectPhone
+                            smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+                            //smsManager.sendTextMessage("01093098508", null, message, null, null)
+                            Toast.makeText(getApplicationContext(), "${phoneNumber} 전송 성공", Toast.LENGTH_LONG).show();
+                        }
+
+                        //val message = "${txtMyAdd.text}에 ${response.getString("name")} 환자가 발생했다."
+                        //print(message)
+                        //smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+                        //smsManager.sendTextMessage("01093098508", null, message, null, null)
+                        //Toast.makeText(getApplicationContext(), "전송 성공", Toast.LENGTH_LONG).show();
+                        //startActivity(intent)
 
                     }catch (e:Exception){
                         println(" Exception: $e")
-                        Toast.makeText(getApplicationContext(), "전송 실패", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "전송 실패 전화번호를 확인해 주세요.", Toast.LENGTH_LONG).show();
                         //txtPw.text = "Exception: $e"
                     }
 
@@ -140,16 +262,47 @@ class Main : Common(), OnMapReadyCallback {
                 }
             )
 
-            request.retryPolicy = DefaultRetryPolicy(
+            request3.retryPolicy = DefaultRetryPolicy(
                 DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
                 // 0 means no retry
                 0, // DefaultRetryPolicy.DEFAULT_MAX_RETRIES = 2
                 1f // DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
             )
             // Add the volley post request to the request queue
-            VolleySingleton.getInstance(this).addToRequestQueue(request)
+            VolleySingleton.getInstance(this).addToRequestQueue(request3)
         }
 
+    }
+    private val TAG="Permission"
+    private val REQUEST_RECORRD_CODE=1
+
+
+    private fun setpermission(){
+        val permission = ContextCompat.checkSelfPermission(this,android.Manifest.permission.SEND_SMS)
+        if (permission!=PackageManager.PERMISSION_GRANTED){
+            Log.d(TAG,"권한 거부")
+        }
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.SEND_SMS)){
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage("권한 허용 어쩌구 저쩌구")
+            builder.setTitle("Permission requiered")
+            builder.setPositiveButton("OK"){
+                dialog, which->
+                Log.d(TAG,"Clicked")
+                makeRepuest()
+            }
+            val dialog = builder.create()
+             dialog.show()
+
+        }
+        else{
+            makeRepuest()
+        }
+    }
+
+    private fun makeRepuest(){
+        ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.SEND_SMS),
+            REQUEST_RECORRD_CODE)
     }
 
     private fun locationInit() {
@@ -210,6 +363,7 @@ class Main : Common(), OnMapReadyCallback {
             }
             noButton { }
         }.show()
+
     }
 
     override fun onPause() {
@@ -236,6 +390,14 @@ class Main : Common(), OnMapReadyCallback {
                     toast("권한 거부 됨")
                 }
                 return
+            }
+            REQUEST_RECORRD_CODE ->{
+                if(grantResults.isEmpty()||grantResults[0]!=PackageManager.PERMISSION_GRANTED){
+                    Log.d(TAG,"권한 거부 실화?")
+                }
+                else{
+                    Log.d(TAG,"권한 허용")
+                }
             }
         }
     }
@@ -287,6 +449,7 @@ class Main : Common(), OnMapReadyCallback {
 
 
     }
+
     protected fun Add()  {
         lateinit var address : List<Address>
         geocoder = Geocoder(this, Locale.getDefault())
