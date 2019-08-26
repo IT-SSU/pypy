@@ -12,21 +12,17 @@ import kotlinx.android.synthetic.main.main.*
 import org.json.JSONObject
 import java.util.HashMap
 
-class JoinOk : Common() {
+class JoinEmailChk : Common() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.join_ok)
-        txtHeaderTitle.text="회원가입 완료";
+        txtHeaderTitle.text="회원 이메일 확인";
         val url = "http://61.84.24.251:49090/siren/userinfo"
         val params = HashMap<String, String>()
         var email = intent.getStringExtra("email")
         params["email"] = email
         val jsonObject = JSONObject(params)
 
-        //세부정보
-        btnProfile.setOnClickListener {
-            startActivity(Intent(this,DetailModify::class.java))
-        }
         btnHome.setOnClickListener {
             startActivity(Intent(this,Main::class.java))
         }
@@ -36,7 +32,7 @@ class JoinOk : Common() {
                 try {
                     println(" Response: $response")
                     txtJoinWelcome.setText(response.getString("name")+"님, \n회원가입을 환영합니다")
-
+                    txtJoinInfo.setText(email+"로 이메일을 보냈습니다.")
                 }catch (e:Exception){
                     println(" Exception: $e")
                     //txtPw.text = "Exception: $e"

@@ -1,6 +1,7 @@
 package com.cookandroid.kotlinapp
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -61,6 +62,13 @@ class Login : Common() {
                     try {
                         println(" Response: $response")
                         if (response.getString("result").equals("T")){
+                            //로그인 성고하면 사용자의 userNum을 저장한다
+                            val settings: SharedPreferences = getSharedPreferences("userNumber", MODE_PRIVATE)
+                            val editor: SharedPreferences.Editor = settings.edit() //데이터를 추가 할때사용
+                            editor.putString("userNum",response.getString("userNum"))
+                            editor.putString("email",response.getString("email"))
+                            editor.commit()
+                            ///
                             val intent = Intent(this, Main::class.java)
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                             intent.putExtra("email",response.getString("email"))

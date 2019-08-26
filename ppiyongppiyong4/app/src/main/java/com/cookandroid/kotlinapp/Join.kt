@@ -111,34 +111,12 @@ class Join : Common() {
 
             }
         })
-
         //뒤로 가기
         btnHeaderBack.setOnClickListener {
             startActivity(Intent(this,Login::class.java))
         }
-        
         //회원가입 버튼
         btnSubmit.setOnClickListener{
-
-            val reName =
-            "(^[가-힣]*\$)"    //이름
-
-            val pName = Pattern.compile(reName, Pattern.CASE_INSENSITIVE or Pattern.DOTALL)
-            val mName = pName.matcher(txtBirth.getText().toString())
-
-            if(!mName.matches()){
-                Toast.makeText(this, "이름이 형식이 맞지않습니다.(홍길동)",Toast.LENGTH_SHORT)
-            }
-
-            val reID =
-                "((?:(?:[1]{1}\\d{1}\\d{1}\\d{1})|(?:[2]{1}\\d{3}))(?:[0]?[1-9]|[1][012])(?:(?:[0-2]?\\d{1})|(?:[3][01]{1})))(?![\\d])"    // YYYYMMDD 1
-
-            val pID = Pattern.compile(reID, Pattern.CASE_INSENSITIVE or Pattern.DOTALL)
-            val mID = pID.matcher(txtBirth.getText().toString())
-
-            if(!mID.matches()){
-                Toast.makeText(this, "생년월일에 형식이 맞지않습니다.(20190824)",Toast.LENGTH_SHORT)
-            }
 
             val url = "http://61.84.24.251:49090/siren/insert"
             //textView.text = ""
