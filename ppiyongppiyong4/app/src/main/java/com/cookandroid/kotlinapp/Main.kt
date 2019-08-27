@@ -166,18 +166,20 @@ class Main : Common(), OnMapReadyCallback {
                             // 저장한 데이터
                             val smsManager = SmsManager.getDefault()
                             //처음으로 보낼 메세지 만들기
-                            var message = "${txtMyAdd.text}에 ${response.getString("name")} 환자가 발생했다. 보유 질병은 "
+                            var message = "${txtMyAdd.text}위치에 ${response.getString("name")}환자가 발생 "
                             for (j in userDetailList){// 리스트 수만큼 추가
-                                message = message + "${j.diseaseName}가 있고 세부사항으로는 ${j.detailContent}가 있습니다. "
-
+                                message = message + """질병 "${j.diseaseName}" 세부사항 "${j.detailContent}" """
                             }
                             println()
                             //두번째로는 보호자 번호에 맞게 문자를 보내기
                             for (i in protectDetailList) {
                                 var phoneNumber = i.protectPhone
+                                message = message.substring(0,70)
+                                println("보호자 번호 "+phoneNumber+"메세지 내용 "+message+"메세지 길이"+message.length)
+
                                 smsManager.sendTextMessage(phoneNumber, null, message, null, null)
                                 //smsManager.sendTextMessage("01093098508", null, message, null, null)
-                                Toast.makeText(getApplicationContext(), "${phoneNumber} 전송 성공", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "${phoneNumber} 전송 성공", Toast.LENGTH_LONG).show()
                             }
 
                             //val message = "${txtMyAdd.text}에 ${response.getString("name")} 환자가 발생했다."

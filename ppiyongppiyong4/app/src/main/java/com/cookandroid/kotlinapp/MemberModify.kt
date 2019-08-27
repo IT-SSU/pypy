@@ -36,7 +36,7 @@ class MemberModify : Common() {
                 // Process the json
                 try {
                     println(" Response: $response")
-                    txtName.setText(response.getString("email"))
+                    txtName.setText(response.getString("name"))
                     txtPhone.setText(response.getString("phone"))
                     txtBirth.setText(response.getString("birth"))
 
