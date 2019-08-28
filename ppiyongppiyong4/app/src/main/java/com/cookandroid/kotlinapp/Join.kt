@@ -117,6 +117,10 @@ class Join : Common() {
         }
         //회원가입 버튼
         btnSubmit.setOnClickListener{
+            val Phone1 =txtPhone.getText().toString() //010
+            val Phone2 =txtPhone2.getText().toString() //1234
+            val Phone3 =txtPhone3.getText().toString() //5678
+            val Phone = Phone1+Phone2+Phone3 // 01012345678
 
             val url = "http://61.84.24.251:49090/siren/insert"
             //textView.text = ""
@@ -128,7 +132,7 @@ class Join : Common() {
             params["password"] = txtPw.text.toString()
             params["name"] = txtName.text.toString()
             params["birth"] = txtBirth.text.toString()
-            params["phone"] = txtPhone.text.toString()
+            params["phone"] = Phone
 
             //json 형식으로
             val jsonObject = JSONObject(params)
