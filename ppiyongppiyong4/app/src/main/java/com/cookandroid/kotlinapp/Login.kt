@@ -67,6 +67,7 @@ class Login : Common() {
                             val editor: SharedPreferences.Editor = settings.edit() //데이터를 추가 할때사용
                             editor.putString("userNum",response.getString("userNum"))
                             editor.putString("email",response.getString("email"))
+                            editor.putString("name",response.getString("name"))
                             editor.commit()
                             ///
                             val intent = Intent(this, Main::class.java)

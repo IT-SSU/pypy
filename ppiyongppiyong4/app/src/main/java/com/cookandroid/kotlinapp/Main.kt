@@ -65,39 +65,8 @@ class Main : Common(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setpermission()
         val settings: SharedPreferences = getSharedPreferences("userNumber", MODE_PRIVATE)
-        val url = "http://61.84.24.251:49090/siren/userinfo"
-        val params = HashMap<String, String>()
-        params["email"] = settings.getString("email",null)
-        val jsonObject = JSONObject(params)
 
-        val request = JsonObjectRequest(Request.Method.POST,url,jsonObject,
-            Response.Listener { response ->
-                // Process the json
-                try {
-                    println(" Response: $response")
-                    txtName.setText(response.getString("name"))
-
-                }catch (e:Exception){
-                    println(" Exception: $e")
-                    //txtPw.text = "Exception: $e"
-                }
-
-            }, Response.ErrorListener{
-                // Error in request
-                println(" Volley error: $it")
-                //txtId.text = "Volley error: $it"
-            }
-        )
-
-        request.retryPolicy = DefaultRetryPolicy(
-            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-            // 0 means no retry
-            0, // DefaultRetryPolicy.DEFAULT_MAX_RETRIES = 2
-            1f // DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        )
-        // Add the volley post request to the request queue
-        VolleySingleton.getInstance(this).addToRequestQueue(request)
-
+        txtName.setText(settings.getString("name",null))
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
