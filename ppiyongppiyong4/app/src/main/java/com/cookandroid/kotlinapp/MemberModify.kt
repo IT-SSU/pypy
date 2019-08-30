@@ -36,7 +36,7 @@ class MemberModify : Common() {
                 // Process the json
                 try {
                     println(" Response: $response")
-                    txtName.setText(response.getString("email"))
+                    txtName.setText(response.getString("name"))
                     txtPhone.setText(response.getString("phone"))
                     txtBirth.setText(response.getString("birth"))
 
@@ -87,6 +87,10 @@ class MemberModify : Common() {
                     try {
                         println(" Response: $response")
                         if (response.getString("result").equals("T")){
+                            val editor: SharedPreferences.Editor = settings.edit() //데이터를 추가 할때사용
+                            editor.putString("name",response.getString("name"))
+                            editor.commit()
+
                             Toast.makeText(this, "회원정보가 수정 되었습니다.", Toast.LENGTH_SHORT).show()
                         }else
                             Toast.makeText(this, "", Toast.LENGTH_SHORT).show()

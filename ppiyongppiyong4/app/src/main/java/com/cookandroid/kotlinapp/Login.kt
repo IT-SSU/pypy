@@ -19,7 +19,7 @@ class Login : Common() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
 
-        txtHeaderTitle.text="로그인";
+        txtHeaderTitle.text="로그인"
         btnHeaderSetting.visibility = View.GONE
         btnHeaderBack.visibility = View.GONE
 
@@ -67,7 +67,9 @@ class Login : Common() {
                             val editor: SharedPreferences.Editor = settings.edit() //데이터를 추가 할때사용
                             editor.putString("userNum",response.getString("userNum"))
                             editor.putString("email",response.getString("email"))
+                            editor.putString("name",response.getString("name")) //스프링 코드 변경
                             editor.commit()
+
                             ///
                             val intent = Intent(this, Main::class.java)
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
