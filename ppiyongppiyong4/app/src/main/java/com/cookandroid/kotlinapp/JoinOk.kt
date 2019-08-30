@@ -1,6 +1,7 @@
 package com.cookandroid.kotlinapp
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.android.volley.Request
@@ -17,9 +18,10 @@ class JoinOk : Common() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.join_ok)
         txtHeaderTitle.text="회원가입 완료";
+        val settings: SharedPreferences = getSharedPreferences("userNumber", MODE_PRIVATE)
         val url = "http://61.84.24.251:49090/siren/userinfo"
         val params = HashMap<String, String>()
-        var email = intent.getStringExtra("email")
+        var email = settings.getString("email", null)
         params["email"] = email
         val jsonObject = JSONObject(params)
 
