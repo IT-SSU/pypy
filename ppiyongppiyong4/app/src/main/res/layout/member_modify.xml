@@ -60,13 +60,40 @@
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
+
                         <EditText
-                                style="@style/join_list_edit"
-                                android:hint="@string/phone_exam"
-                                android:ems="255"
                                 android:id="@+id/txtPhone"
+                                style="@style/join_list_edit"
+                                android:layout_weight="0.9"
+                                android:ems="255"
+                                android:hint="000"
+                                android:importantForAutofill="no"
                                 android:inputType="phone"
-                                android:importantForAutofill="no" tools:targetApi="o"/>
+                                tools:targetApi="o" />
+
+                        <EditText
+                                android:id="@+id/txtPhone4"
+                                style="@style/join_list_edit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.9"
+                                android:ems="255"
+                                android:hint="0000"
+                                android:importantForAutofill="no"
+                                android:inputType="phone"
+                                tools:targetApi="o" />
+
+                        <EditText
+                                android:id="@+id/txtPhone5"
+                                style="@style/join_list_edit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.9"
+                                android:ems="255"
+                                android:hint="0000"
+                                android:importantForAutofill="no"
+                                android:inputType="phone"
+                                tools:targetApi="o" />
                     </LinearLayout>
                 </LinearLayout>
                 <LinearLayout

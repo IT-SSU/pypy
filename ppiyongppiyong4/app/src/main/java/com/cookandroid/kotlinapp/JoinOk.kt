@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -36,6 +37,12 @@ class JoinOk : Common() {
             Response.Listener { response ->
                 // Process the json
                 try {
+                    val settings: SharedPreferences = getSharedPreferences("userNumber", MODE_PRIVATE)
+                    val editor: SharedPreferences.Editor = settings.edit() //데이터를 추가 할때사용
+                    editor.putString("userNum",response.getString("userNum"))
+                    editor.putString("email",response.getString("email"))
+                    editor.putString("name",response.getString("name")) //스프링 코드 변경
+                    editor.commit()
                     println(" Response: $response")
                     txtJoinWelcome.setText(response.getString("name")+"님, \n회원가입을 환영합니다")
 
@@ -49,6 +56,15 @@ class JoinOk : Common() {
                 println(" Volley error: $it")
                 //txtId.text = "Volley error: $it"
             }
+
         )
+        request.retryPolicy = DefaultRetryPolicy(
+            DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+            // 0 means no retry
+            0, // DefaultRetryPolicy.DEFAULT_MAX_RETRIES = 2
+            1f // DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+        // Add the volley post request to the request queue
+        VolleySingleton.getInstance(this).addToRequestQueue(request)
     }
 }
