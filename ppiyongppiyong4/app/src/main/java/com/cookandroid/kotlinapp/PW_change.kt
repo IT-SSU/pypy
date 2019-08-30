@@ -27,6 +27,12 @@ class PW_change : Common() {
         txtNowPw
 
         btnSubmit.setOnClickListener {
+            val reg1 = Regex("\\(([A-Z])\\w+\\)")
+//            if(){
+//
+//            }else{
+//                Toast.makeText(this, "비밀변호가 형식을 맟쳐주세요", Toast.LENGTH_SHORT).show()
+//            }
             val settings: SharedPreferences = getSharedPreferences("userNumber", MODE_PRIVATE)
             val url = "http://61.84.24.251:49090/siren/passwordUpdate"
             val params = HashMap<String, String>()

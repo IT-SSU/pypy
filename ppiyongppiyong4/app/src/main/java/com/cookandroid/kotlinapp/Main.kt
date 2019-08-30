@@ -64,9 +64,9 @@ class Main : Common(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setpermission()
-        val settings: SharedPreferences = getSharedPreferences("userNumber", MODE_PRIVATE)
 
-        txtName.setText(settings.getString("name",null))
+
+
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -78,6 +78,15 @@ class Main : Common(), OnMapReadyCallback {
 
         locationInit()
 
+        val settings: SharedPreferences = getSharedPreferences("userNumber", MODE_PRIVATE)
+
+        print(settings.getString("name","저장 실패"))
+        try {
+            //txtName.text = settings.getString("name","저장 실패")
+            txtName.setText(settings.getString("name","저장 실패"))
+        }catch (e:Exception){
+
+        }
         btnReport.setOnClickListener {
             setpermission()
             val settings: SharedPreferences = getSharedPreferences("userNumber", MODE_PRIVATE)
