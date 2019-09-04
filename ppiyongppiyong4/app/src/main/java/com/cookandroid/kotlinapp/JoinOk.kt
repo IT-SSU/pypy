@@ -28,7 +28,7 @@ class JoinOk : Common() {
 
         //세부정보
         btnProfile.setOnClickListener {
-            startActivity(Intent(this,DetailModify::class.java))
+            startActivity(Intent(this,MainUserDetail::class.java))
         }
         btnHome.setOnClickListener {
             startActivity(Intent(this,Main::class.java))
