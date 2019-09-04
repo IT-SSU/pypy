@@ -54,6 +54,11 @@
         </activity>
 
         <activity
+                android:name=".MainUserDetail"
+                android:screenOrientation="portrait">
+        </activity>
+
+        <activity
                 android:name=".ID_find"
                 android:screenOrientation="portrait">
         </activity>
