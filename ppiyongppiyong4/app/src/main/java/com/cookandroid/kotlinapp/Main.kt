@@ -152,10 +152,18 @@ class Main : Common(), OnMapReadyCallback {
                             //두번째로는 보호자 번호에 맞게 문자를 보내기
                             for (i in protectDetailList) {
                                 var phoneNumber = i.protectPhone
-                                message = message.substring(0,70)
+                                var send1 = ""
+                                if(message.length > 70){
+                                    send1 = message.substring(0,70)
+                                }
+                                else{
+                                    send1 = message
+                                }
+
+                                //val send2 = message.substring(70,140)
                                 println("보호자 번호 "+phoneNumber+"메세지 내용 "+message+"메세지 길이"+message.length)
 
-                                smsManager.sendTextMessage(phoneNumber, null, message, null, null)
+                                smsManager.sendTextMessage(phoneNumber, null, send1, null, null)
                                 //smsManager.sendTextMessage("01093098508", null, message, null, null)
                                 Toast.makeText(getApplicationContext(), "${phoneNumber} 전송 성공", Toast.LENGTH_LONG).show()
                             }

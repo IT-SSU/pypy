@@ -433,9 +433,10 @@ class MainUserDetail : AppCompatActivity() {
             val url = "http://61.84.24.251:49090/siren/detailInsert"//삭제 페이지 만들어서 적용
             val params = HashMap<String, String>()
 
+            val settings: SharedPreferences = getSharedPreferences("userNumber", MODE_PRIVATE)
             //val detailinfo = userDetailListSave[userDetailListSave.size-1].detailCode.toInt()+1
             //println(detailinfo)
-            params["userNum"] = userDetailListSave[0].userNum.toString()//유저 번호 나중에 변경 (보내는 정보)
+            params["userNum"] = settings.getString("userNum",null)//유저 번호 나중에 변경 (보내는 정보)
             //params["detailCode"] = detailinfo.toString()
             params["diseaseName"] = "병 이름"
             params["detailContent"] = "세부사항"
@@ -481,7 +482,8 @@ class MainUserDetail : AppCompatActivity() {
             val url = "http://61.84.24.251:49090/siren/protectInsert"//삭제 페이지 만들어서 적용
             val params = HashMap<String, String>()
 
-            params["userNum"] = protectDetailListSave[0].userNum.toString()//유저 번호 나중에 변경 (보내는 정보)
+            val settings: SharedPreferences = getSharedPreferences("userNumber", MODE_PRIVATE)
+            params["userNum"] = settings.getString("userNum",null)//유저 번호 나중에 변경 (보내는 정보)
             //params["detailCode"] = detailinfo.toString()
             params["protectName"] = "보호자 이름"
             params["protectRelation"] = "관계"
