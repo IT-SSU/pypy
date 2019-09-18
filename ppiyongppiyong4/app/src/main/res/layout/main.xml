@@ -6,85 +6,111 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Main" android:id="@+id/constraintLayout6">
+
     <android.support.constraint.ConstraintLayout
-            android:layout_width="409dp"
+            android:id="@+id/layoutProfile"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/main"
-            android:orientation="vertical" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:paddingBottom="10dp" android:id="@+id/layoutProfile">
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
         <android.support.constraint.ConstraintLayout
-                style="@style/haeder" app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:id="@+id/header"
-                android:background="@color/alpha">
+                style="@style/haeder"
+                android:background="@color/alpha"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
             <android.support.constraint.ConstraintLayout
                     style="@style/header_btn"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/header"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@id/header">
-                <ImageButton app:srcCompat="@drawable/header_setting_btn"
-                             style="@style/header_setting_btn"
-                             android:contentDescription="@string/setting_desc"
-                             android:id="@+id/btnHeaderSetting"
-                             app:layout_constraintTop_toTopOf="parent"
-                             app:layout_constraintEnd_toEndOf="parent"
-                             android:layout_marginBottom="2dp"
-                             android:background="@color/alpha"
-                             android:onClick="goSetting" tools:ignore="OnClick"/>
+                    app:layout_constraintTop_toTopOf="parent">
+
+                <ImageButton
+                        android:id="@+id/btnHeaderSetting"
+                        style="@style/header_setting_btn"
+                        android:layout_marginBottom="2dp"
+                        android:background="@color/alpha"
+                        android:contentDescription="@string/setting_desc"
+                        android:onClick="goSetting"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/header_setting_btn"
+                        tools:ignore="OnClick" />
             </android.support.constraint.ConstraintLayout>
         </android.support.constraint.ConstraintLayout>
+
         <ImageView
                 android:id="@+id/imgProfile"
-                android:layout_width="408dp"
+                android:layout_width="0dp"
                 android:layout_height="66dp"
                 android:layout_gravity="center_horizontal"
-                app:srcCompat="@drawable/logo3"
-                app:layout_constraintTop_toBottomOf="@+id/header" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="8dp"
                 android:contentDescription="@string/image_desc"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout3" android:layout_marginBottom="8dp"
-                app:layout_constraintHorizontal_bias="1.0"/>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:orientation="vertical" app:layout_constraintTop_toBottomOf="@+id/imgProfile"
-                      android:id="@+id/linearLayout3">
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/header"
+                app:srcCompat="@drawable/logo3" />
+
+        <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/imgProfile">
+
             <TextView
                     android:id="@+id/txtName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="10dp"
                     android:text="@string/name"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp" android:paddingTop="10dp" android:paddingRight="10dp"
-                    android:paddingLeft="10dp"/>
+                    android:textSize="18sp" />
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
+
     <android.support.constraint.ConstraintLayout
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutProfile"
+            android:id="@+id/layoutPosition"
+            android:layout_width="0dp"
             android:layout_height="407dp"
-            android:layout_width="408dp" android:id="@+id/layoutPosition">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutProfile">
+
         <TextView
+                android:id="@+id/txtMyAdd"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="내 위치"
                 android:ems="10"
-                android:id="@+id/txtMyAdd" app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/map" app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"/>
+                android:padding="10dp"
+                android:text="@string/my_position"
+                app:layout_constraintBottom_toTopOf="@+id/map"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         <fragment
-                android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:id="@+id/map"
-                android:layout_width="409dp"
-                android:layout_height="376dp" app:layout_constraintTop_toBottomOf="@+id/txtMyAdd"
-                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.0"
-        >
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtMyAdd">
 
         </fragment>
     </android.support.constraint.ConstraintLayout>

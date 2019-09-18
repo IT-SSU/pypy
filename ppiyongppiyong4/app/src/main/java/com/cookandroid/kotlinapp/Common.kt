@@ -17,4 +17,5 @@ open class Common: AppCompatActivity() {
         startActivity(Intent(this,Setting::class.java))
 
     }
+
 }

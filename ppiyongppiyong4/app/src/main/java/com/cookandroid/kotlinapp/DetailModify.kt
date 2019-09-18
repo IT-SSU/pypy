@@ -3,7 +3,6 @@ package com.cookandroid.kotlinapp
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
@@ -18,8 +17,7 @@ class DetailModify : Common() {
         setContentView(R.layout.detail_modify)
         txtHeaderTitle.text="상세정보 수정";
         btnHeaderSetting.visibility = View.GONE
-
-        val btnSubmit = findViewById<Button>(R.id.btnSubmit)
+//        val btnSubmit = findViewById<Button>(R.id.btnSubmit)
 
         btnSubmit.setOnClickListener {
 

@@ -59,7 +59,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     style="@style/join_list"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:id="@+id/joinList1" app:layout_constraintTop_toBottomOf="@id/joinList1">
+                    android:id="@+id/joinList2" app:layout_constraintTop_toBottomOf="@id/joinList1">
                 <TextView
                         style="@style/join_list_tit"
                         android:text="@string/birth"
