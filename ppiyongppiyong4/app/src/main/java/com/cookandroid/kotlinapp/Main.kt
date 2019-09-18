@@ -247,7 +247,11 @@ class Main : Common(), OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+<<<<<<< Updated upstream
         val seoul = LatLng(97.5662952, 126.97794509999994)
+=======
+        val seoul = LatLng(37.566593, 126.977967)
+>>>>>>> Stashed changes
         mMap.addMarker(MarkerOptions().position(seoul).title("Marker in Seoul"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(seoul))
 
